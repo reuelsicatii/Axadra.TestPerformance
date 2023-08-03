@@ -1,0 +1,13 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1691047517835,592,Given User navigates to login  --  /login_page,200,OK,LoadTest - GenerateWebAuditReport - TestCase01 1-1,text,true,,3964,474,1,1,https://account.seoreseller.com/login,590,0,291
+1691047518432,489,And User enter username and password -- ,200,OK,LoadTest - GenerateWebAuditReport - TestCase01 1-1,text,true,,4237,2105,1,1,https://account.seoreseller.com/login,240,0,0
+1691047518432,240,And User enter username and password -- -0,302,Found,LoadTest - GenerateWebAuditReport - TestCase01 1-1,text,true,,903,1050,1,1,https://account.seoreseller.com/,240,0,0
+1691047518674,247,And User enter username and password -- -1,200,OK,LoadTest - GenerateWebAuditReport - TestCase01 1-1,text,true,,3334,1055,1,1,https://account.seoreseller.com/login,247,0,0
+1691047518922,2897,When User clicks on login button -- /logging_in,200,OK,LoadTest - GenerateWebAuditReport - TestCase01 1-1,text,true,,52807,4365,1,1,https://account.seoreseller.com/,1969,0,0
+1691047518922,1969,When User clicks on login button -- /logging_in-0,302,Found,LoadTest - GenerateWebAuditReport - TestCase01 1-1,text,true,,10842,1199,1,1,https://account.seoreseller.com/login,1969,0,0
+1691047520894,925,When User clicks on login button -- /logging_in-1,200,OK,LoadTest - GenerateWebAuditReport - TestCase01 1-1,text,true,,41965,3166,1,1,https://account.seoreseller.com/,925,0,0
+1691047521829,890,Then User is successfully login --,200,OK,LoadTest - GenerateWebAuditReport - TestCase01 1-1,text,true,,32942,2569,1,1,https://account.seoreseller.com/,890,0,0
+1691047522721,860,When User navigates to WebAudit -- /navigate,200,OK,LoadTest - GenerateWebAuditReport - TestCase01 1-1,text,true,,28402,2525,1,1,https://account.seoreseller.com/pro/audits,860,0,0
+1691047523587,62868,And User generates a WebAuditReport -- /generate,200,OK,LoadTest - GenerateWebAuditReport - TestCase01 1-1,text,true,,10709,2704,1,1,https://account.seoreseller.com/seotools/webaudits,62868,0,0
+1691047586605,2006,Then WebAuditReport is success -- /check webaudit report -- assertion(success),200,OK,LoadTest - GenerateWebAuditReport - TestCase01 1-1,text,true,,12317,2757,1,1,https://account.seoreseller.com/seotools/check_audit_token,2006,0,60
+1691047588620,942,Then WebAuditReport is success -- /check webaudit report -- assertion(action),200,"action actual value is download, and action expected value is download",LoadTest - GenerateWebAuditReport - TestCase01 1-1,text,true,,30958,2515,1,1,https://account.seoreseller.com/,942,0,0
