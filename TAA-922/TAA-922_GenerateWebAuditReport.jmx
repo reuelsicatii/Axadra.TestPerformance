@@ -407,22 +407,6 @@ log.info(&quot;url value is &quot; + urlValue)</stringProp>
             <stringProp name="TestPlan.comments">webaudits</stringProp>
           </HTTPSamplerProxy>
           <hashTree>
-            <com.di.jmeter.config.ExtendedCsvDataSetConfig guiclass="com.di.jmeter.config.gui.ExtendedCsvDataSetConfigGui" testclass="com.di.jmeter.config.ExtendedCsvDataSetConfig" testname="Extended CSV Data Set Config" enabled="false">
-              <stringProp name="filename">C:\Users\Jumer Acosta\Desktop\JMeter\Tickets\TAA-922 - WebAuditReport\website_url.csv</stringProp>
-              <stringProp name="fileEncoding">UTF-8</stringProp>
-              <stringProp name="variableNames">url</stringProp>
-              <boolProp name="ignoreFirstLine">false</boolProp>
-              <stringProp name="delimiter">,</stringProp>
-              <boolProp name="quotedData">false</boolProp>
-              <stringProp name="selectRow">Random</stringProp>
-              <stringProp name="updateValue">Each Iteration</stringProp>
-              <stringProp name="ooValue">Continue Cyclic</stringProp>
-              <stringProp name="shareMode">All threads</stringProp>
-              <boolProp name="autoAllocate">true</boolProp>
-              <boolProp name="allocate">false</boolProp>
-              <stringProp name="blockSize"></stringProp>
-            </com.di.jmeter.config.ExtendedCsvDataSetConfig>
-            <hashTree/>
             <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor - token" enabled="true">
               <stringProp name="JSONPostProcessor.referenceNames">token</stringProp>
               <stringProp name="JSONPostProcessor.jsonPathExprs">$.response.data.token</stringProp>
