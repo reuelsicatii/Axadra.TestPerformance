@@ -353,7 +353,7 @@ log.info(&quot;Business Name is &quot; + inputBusinessNameValue)</stringProp>
               <collectionProp name="Arguments.arguments">
                 <elementProp name="input" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">true</boolProp>
-                  <stringProp name="Argument.value">Miracle Leaf</stringProp>
+                  <stringProp name="Argument.value">${inputBusinessName_1}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">input</stringProp>
@@ -1129,7 +1129,7 @@ log.info(&quot;Business Name is &quot; + inputBusinessNameValue)</stringProp>
               <collectionProp name="Arguments.arguments">
                 <elementProp name="input" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">true</boolProp>
-                  <stringProp name="Argument.value">Miracle Leaf</stringProp>
+                  <stringProp name="Argument.value">${inputBusinessName_1}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">input</stringProp>
@@ -1902,7 +1902,7 @@ log.info(&quot;Business Name is &quot; + inputBusinessNameValue)</stringProp>
               <collectionProp name="Arguments.arguments">
                 <elementProp name="input" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">true</boolProp>
-                  <stringProp name="Argument.value">Miracle Leaf</stringProp>
+                  <stringProp name="Argument.value">${inputBusinessName_1}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">input</stringProp>
@@ -2675,7 +2675,7 @@ log.info(&quot;Business Name is &quot; + inputBusinessNameValue)</stringProp>
               <collectionProp name="Arguments.arguments">
                 <elementProp name="input" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">true</boolProp>
-                  <stringProp name="Argument.value">Miracle Leaf</stringProp>
+                  <stringProp name="Argument.value">${inputBusinessName_1}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">input</stringProp>
