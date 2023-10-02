@@ -33,7 +33,7 @@
     </TestPlan>
     <hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="LoadTest - CRMAddContact - TestCase01" enabled="true">
-        <stringProp name="ThreadGroup.on_sample_error">stopthread</stringProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <stringProp name="LoopController.loops">1</stringProp>
@@ -301,7 +301,7 @@
           </HeaderManager>
           <hashTree/>
           <com.di.jmeter.config.ExtendedCsvDataSetConfig guiclass="com.di.jmeter.config.gui.ExtendedCsvDataSetConfigGui" testclass="com.di.jmeter.config.ExtendedCsvDataSetConfig" testname="Extended CSV Data Set Config" enabled="true">
-            <stringProp name="filename">C:\Users\Jumer Acosta\Desktop\JMeter\Tickets\TAA-974 - CRM Add Contact\crm_contact_list.csv</stringProp>
+            <stringProp name="filename">C:\Users\Admin\Desktop\Test Automation\Perf Test\Axadra.TestPerformance\TAA-974\crm_contact_list.csv</stringProp>
             <stringProp name="fileEncoding">UTF-8</stringProp>
             <stringProp name="variableNames">company,email,phone,website</stringProp>
             <boolProp name="ignoreFirstLine">false</boolProp>
@@ -314,6 +314,7 @@
             <boolProp name="autoAllocate">true</boolProp>
             <boolProp name="allocate">false</boolProp>
             <stringProp name="blockSize"></stringProp>
+            <stringProp name="TestPlan.comments">C:\Users\Admin\Desktop\Test Automation\Perf Test\Axadra.TestPerformance\TAA-974\crm_contact_list.csv</stringProp>
           </com.di.jmeter.config.ExtendedCsvDataSetConfig>
           <hashTree/>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="06 And User import contact/s -- /import csv" enabled="true">
@@ -1293,7 +1294,7 @@
           </HeaderManager>
           <hashTree/>
           <com.di.jmeter.config.ExtendedCsvDataSetConfig guiclass="com.di.jmeter.config.gui.ExtendedCsvDataSetConfigGui" testclass="com.di.jmeter.config.ExtendedCsvDataSetConfig" testname="Extended CSV Data Set Config" enabled="true">
-            <stringProp name="filename">C:\Users\Jumer Acosta\Desktop\JMeter\Tickets\TAA-974 - CRM Add Contact\crm_contact_list.csv</stringProp>
+            <stringProp name="filename">C:\Users\Admin\Desktop\Test Automation\Perf Test\Axadra.TestPerformance\TAA-974\crm_contact_list.csv</stringProp>
             <stringProp name="fileEncoding">UTF-8</stringProp>
             <stringProp name="variableNames">company,email,phone,website</stringProp>
             <boolProp name="ignoreFirstLine">false</boolProp>
@@ -2285,7 +2286,7 @@
           </HeaderManager>
           <hashTree/>
           <com.di.jmeter.config.ExtendedCsvDataSetConfig guiclass="com.di.jmeter.config.gui.ExtendedCsvDataSetConfigGui" testclass="com.di.jmeter.config.ExtendedCsvDataSetConfig" testname="Extended CSV Data Set Config" enabled="true">
-            <stringProp name="filename">C:\Users\Jumer Acosta\Desktop\JMeter\Tickets\TAA-974 - CRM Add Contact\crm_contatc_list.csv</stringProp>
+            <stringProp name="filename">C:\Users\Admin\Desktop\Test Automation\Perf Test\Axadra.TestPerformance\TAA-974\crm_contact_list.csv</stringProp>
             <stringProp name="fileEncoding">UTF-8</stringProp>
             <stringProp name="variableNames">company,email,phone,website</stringProp>
             <boolProp name="ignoreFirstLine">false</boolProp>
@@ -3277,7 +3278,7 @@
           </HeaderManager>
           <hashTree/>
           <com.di.jmeter.config.ExtendedCsvDataSetConfig guiclass="com.di.jmeter.config.gui.ExtendedCsvDataSetConfigGui" testclass="com.di.jmeter.config.ExtendedCsvDataSetConfig" testname="Extended CSV Data Set Config" enabled="true">
-            <stringProp name="filename">C:\Users\Jumer Acosta\Desktop\JMeter\Tickets\TAA-974 - CRM Add Contact\crm_contatc_list.csv</stringProp>
+            <stringProp name="filename">C:\Users\Admin\Desktop\Test Automation\Perf Test\Axadra.TestPerformance\TAA-974\crm_contact_list.csv</stringProp>
             <stringProp name="fileEncoding">UTF-8</stringProp>
             <stringProp name="variableNames">company,email,phone,website</stringProp>
             <boolProp name="ignoreFirstLine">false</boolProp>
@@ -3290,6 +3291,7 @@
             <boolProp name="autoAllocate">true</boolProp>
             <boolProp name="allocate">false</boolProp>
             <stringProp name="blockSize"></stringProp>
+            <stringProp name="TestPlan.comments">C:\Users\Jumer Acosta\Desktop\JMeter\Tickets\TAA-974 - CRM Add Contact\crm_contatc_list.csv</stringProp>
           </com.di.jmeter.config.ExtendedCsvDataSetConfig>
           <hashTree/>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="06 And User import contact/s -- /import csv" enabled="true">
