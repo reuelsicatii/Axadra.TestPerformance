@@ -27,6 +27,11 @@
             <stringProp name="Argument.value">asdasdasd</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
+          <elementProp name="profile_id" elementType="Argument">
+            <stringProp name="Argument.name">profile_id</stringProp>
+            <stringProp name="Argument.value">950248</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
         </collectionProp>
       </elementProp>
       <stringProp name="TestPlan.user_define_classpath"></stringProp>
@@ -98,6 +103,25 @@
             </elementProp>
           </collectionProp>
         </HeaderManager>
+        <hashTree/>
+        <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="JDBC Connection Configuration" enabled="true">
+          <boolProp name="autocommit">true</boolProp>
+          <stringProp name="checkQuery">select 1</stringProp>
+          <stringProp name="connectionAge">5000</stringProp>
+          <stringProp name="connectionProperties"></stringProp>
+          <stringProp name="dataSource">db_conn</stringProp>
+          <stringProp name="dbUrl">jdbc:mysql://central-db-compass.cuz0vq3xjyt0.us-west-1.rds.amazonaws.com:3306/central</stringProp>
+          <stringProp name="driver">com.mysql.jdbc.Driver</stringProp>
+          <stringProp name="initQuery"></stringProp>
+          <boolProp name="keepAlive">true</boolProp>
+          <stringProp name="password">vC0%4yi@6ZJJ</stringProp>
+          <stringProp name="poolMax">10</stringProp>
+          <boolProp name="preinit">false</boolProp>
+          <stringProp name="timeout">10000</stringProp>
+          <stringProp name="transactionIsolation">DEFAULT</stringProp>
+          <stringProp name="trimInterval">60000</stringProp>
+          <stringProp name="username">jumer</stringProp>
+        </JDBCDataSource>
         <hashTree/>
         <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Given user navigates to login" enabled="true">
           <stringProp name="TestPlan.comments">Given User navigates to &quot;&lt;loginUrl&gt;&quot; using &quot;&lt;browser&gt;&quot;</stringProp>
@@ -296,7 +320,7 @@
               <collectionProp name="Arguments.arguments">
                 <elementProp name="profile_id" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">950248</stringProp>
+                  <stringProp name="Argument.value">${profile_id}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">profile_id</stringProp>
@@ -336,7 +360,7 @@
               <collectionProp name="Arguments.arguments">
                 <elementProp name="profile_id" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">950248</stringProp>
+                  <stringProp name="Argument.value">${profile_id}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">profile_id</stringProp>
@@ -422,7 +446,7 @@
           </HTTPSamplerProxy>
           <hashTree>
             <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor - ProposaID" enabled="true">
-              <stringProp name="JSONPostProcessor.referenceNames">ProposalID</stringProp>
+              <stringProp name="JSONPostProcessor.referenceNames">proposal_ID</stringProp>
               <stringProp name="JSONPostProcessor.jsonPathExprs">$.proposalId</stringProp>
               <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
             </JSONPostProcessor>
@@ -454,7 +478,7 @@
               <collectionProp name="Arguments.arguments">
                 <elementProp name="proposal_id" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">${ProposalID}</stringProp>
+                  <stringProp name="Argument.value">${proposal_ID}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">proposal_id</stringProp>
@@ -505,12 +529,48 @@
             </collectionProp>
           </HeaderManager>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="09 And user add a product id -- /add product id" enabled="true">
+          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="09 And user connecct to db to get product id -- /GET product id from db" enabled="true">
+            <stringProp name="dataSource">db_conn</stringProp>
+            <stringProp name="query">SELECT product_price.`product_id`, product_price.`category_id`, product_price.`srp`, product_price.`currency_code`
+FROM product_price
+WHERE product_price.`srp` &gt; 0
+ORDER BY RAND()
+LIMIT 1;</stringProp>
+            <stringProp name="queryArguments"></stringProp>
+            <stringProp name="queryArgumentsTypes"></stringProp>
+            <stringProp name="queryTimeout">120</stringProp>
+            <stringProp name="queryType">Select Statement</stringProp>
+            <stringProp name="resultSetHandler">Store as String</stringProp>
+            <stringProp name="resultSetMaxRows"></stringProp>
+            <stringProp name="resultVariable"></stringProp>
+            <stringProp name="variableNames">productID,categoryID,srp,currencyCode</stringProp>
+          </JDBCSampler>
+          <hashTree>
+            <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="JSR223 Assertion" enabled="true">
+              <stringProp name="cacheKey">true</stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="script">def productIdValue = vars.get(&quot;productID_1&quot;)
+def categoryIdValue = vars.get(&quot;categoryID_1&quot;)
+def srpValue = vars.get(&quot;srp_1&quot;)
+def currencyCodeValue = vars.get(&quot;currencyCode_1&quot;)
+
+prev.setResponseMessage(&quot;ProductID is &quot; + productIdValue + &quot;. CategoryID is &quot; + categoryIdValue + &quot;. Product Price is &quot; + srpValue + &quot;. Currency Code is &quot; + currencyCodeValue)
+
+log.info(&quot;ProductID is &quot; + productIdValue)
+log.info(&quot;CategoryID is &quot; + categoryIdValue)
+log.info(&quot;Product Price is &quot; + srpValue)
+log.info(&quot;Currency Code is &quot; + currencyCodeValue)</stringProp>
+              <stringProp name="scriptLanguage">groovy</stringProp>
+            </JSR223Assertion>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="10 And user add a product id -- /add product id" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
                 <elementProp name="product_id" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">82</stringProp>
+                  <stringProp name="Argument.value">${productID_1}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">product_id</stringProp>
@@ -524,7 +584,7 @@
                 </elementProp>
                 <elementProp name="user_price" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">600</stringProp>
+                  <stringProp name="Argument.value">${srp_1}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">user_price</stringProp>
@@ -583,7 +643,7 @@
             </collectionProp>
           </HeaderManager>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="10 And user add a category id -- /add category id" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="11 And user add a category id -- /add category id" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
                 <elementProp name="categoryId" elementType="HTTPArgument">
@@ -646,7 +706,7 @@
             </collectionProp>
           </HeaderManager>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="11 And user build the proposal cover-- /build proposal cover" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="12 And user build the proposal cover-- /build proposal cover" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
                 <elementProp name="url" elementType="HTTPArgument">
@@ -716,19 +776,19 @@
             </collectionProp>
           </HeaderManager>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="12 And user build the save proposal cover-- /build save proposal" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="13 And user build the save proposal cover-- /build save proposal" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
                 <elementProp name="proposal[proposal_id]" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">${ProposalID}</stringProp>
+                  <stringProp name="Argument.value">${proposal_ID}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">proposal[proposal_id]</stringProp>
                 </elementProp>
                 <elementProp name="proposal[price]" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">600.00</stringProp>
+                  <stringProp name="Argument.value">${srp_1}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">proposal[price]</stringProp>
@@ -770,7 +830,7 @@
                 </elementProp>
                 <elementProp name="proposal_product[0][product_id]" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">82</stringProp>
+                  <stringProp name="Argument.value">${productID_1}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">proposal_product[0][product_id]</stringProp>
@@ -791,7 +851,7 @@
                 </elementProp>
                 <elementProp name="proposal_quotation[0][product_id]" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">82</stringProp>
+                  <stringProp name="Argument.value">${productID_1}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">proposal_quotation[0][product_id]</stringProp>
@@ -805,14 +865,14 @@
                 </elementProp>
                 <elementProp name="proposal_quotation[0][currency_code]" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">USD</stringProp>
+                  <stringProp name="Argument.value">${currencyCode_1}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">proposal_quotation[0][currency_code]</stringProp>
                 </elementProp>
                 <elementProp name="proposal_quotation[0][amount]" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">600</stringProp>
+                  <stringProp name="Argument.value">${srp_1}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">proposal_quotation[0][amount]</stringProp>
@@ -890,7 +950,7 @@
             </collectionProp>
           </HeaderManager>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="13 And check proposal build progress -- /build progress" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="14 And check proposal build progress -- /build progress" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
                 <elementProp name="methodName" elementType="HTTPArgument">
@@ -945,7 +1005,7 @@
             </collectionProp>
           </HeaderManager>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="14 Then user save the proposal in the list -- /save proposal" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="15 Then user save the proposal in the list -- /save proposal" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
                 <elementProp name="draw" elementType="HTTPArgument">
@@ -1310,7 +1370,7 @@
         </hashTree>
         <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="And Send a Slack Notification" enabled="true"/>
         <hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="15 And Send a Slack Notification -- /send notif" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="16 And Send a Slack Notification -- /send notif" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -1624,6 +1684,25 @@
           </collectionProp>
         </HeaderManager>
         <hashTree/>
+        <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="JDBC Connection Configuration" enabled="true">
+          <boolProp name="autocommit">true</boolProp>
+          <stringProp name="checkQuery">select 1</stringProp>
+          <stringProp name="connectionAge">5000</stringProp>
+          <stringProp name="connectionProperties"></stringProp>
+          <stringProp name="dataSource">db_conn</stringProp>
+          <stringProp name="dbUrl">jdbc:mysql://central-db-compass.cuz0vq3xjyt0.us-west-1.rds.amazonaws.com:3306/central</stringProp>
+          <stringProp name="driver">com.mysql.jdbc.Driver</stringProp>
+          <stringProp name="initQuery"></stringProp>
+          <boolProp name="keepAlive">true</boolProp>
+          <stringProp name="password">vC0%4yi@6ZJJ</stringProp>
+          <stringProp name="poolMax">10</stringProp>
+          <boolProp name="preinit">false</boolProp>
+          <stringProp name="timeout">10000</stringProp>
+          <stringProp name="transactionIsolation">DEFAULT</stringProp>
+          <stringProp name="trimInterval">60000</stringProp>
+          <stringProp name="username">jumer</stringProp>
+        </JDBCDataSource>
+        <hashTree/>
         <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Given user navigates to login" enabled="true">
           <stringProp name="TestPlan.comments">Given User navigates to &quot;&lt;loginUrl&gt;&quot; using &quot;&lt;browser&gt;&quot;</stringProp>
         </GenericController>
@@ -1821,7 +1900,7 @@
               <collectionProp name="Arguments.arguments">
                 <elementProp name="profile_id" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">950248</stringProp>
+                  <stringProp name="Argument.value">${profile_id}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">profile_id</stringProp>
@@ -1861,7 +1940,7 @@
               <collectionProp name="Arguments.arguments">
                 <elementProp name="profile_id" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">950248</stringProp>
+                  <stringProp name="Argument.value">${profile_id}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">profile_id</stringProp>
@@ -1947,7 +2026,7 @@
           </HTTPSamplerProxy>
           <hashTree>
             <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor - ProposaID" enabled="true">
-              <stringProp name="JSONPostProcessor.referenceNames">ProposalID</stringProp>
+              <stringProp name="JSONPostProcessor.referenceNames">proposal_ID</stringProp>
               <stringProp name="JSONPostProcessor.jsonPathExprs">$.proposalId</stringProp>
               <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
             </JSONPostProcessor>
@@ -1979,7 +2058,7 @@
               <collectionProp name="Arguments.arguments">
                 <elementProp name="proposal_id" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">${ProposalID}</stringProp>
+                  <stringProp name="Argument.value">${proposal_ID}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">proposal_id</stringProp>
@@ -2030,12 +2109,48 @@
             </collectionProp>
           </HeaderManager>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="09 And user add a product id -- /add product id" enabled="true">
+          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="09 And user connecct to db to get product id -- /GET product id from db" enabled="true">
+            <stringProp name="dataSource">db_conn</stringProp>
+            <stringProp name="query">SELECT product_price.`product_id`, product_price.`category_id`, product_price.`srp`, product_price.`currency_code`
+FROM product_price
+WHERE product_price.`srp` &gt; 0
+ORDER BY RAND()
+LIMIT 1;</stringProp>
+            <stringProp name="queryArguments"></stringProp>
+            <stringProp name="queryArgumentsTypes"></stringProp>
+            <stringProp name="queryTimeout">120</stringProp>
+            <stringProp name="queryType">Select Statement</stringProp>
+            <stringProp name="resultSetHandler">Store as String</stringProp>
+            <stringProp name="resultSetMaxRows"></stringProp>
+            <stringProp name="resultVariable"></stringProp>
+            <stringProp name="variableNames">productID,categoryID,srp,currencyCode</stringProp>
+          </JDBCSampler>
+          <hashTree>
+            <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="JSR223 Assertion" enabled="true">
+              <stringProp name="cacheKey">true</stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="script">def productIdValue = vars.get(&quot;productID_1&quot;)
+def categoryIdValue = vars.get(&quot;categoryID_1&quot;)
+def srpValue = vars.get(&quot;srp_1&quot;)
+def currencyCodeValue = vars.get(&quot;currencyCode_1&quot;)
+
+prev.setResponseMessage(&quot;ProductID is &quot; + productIdValue + &quot;. CategoryID is &quot; + categoryIdValue + &quot;. Product Price is &quot; + srpValue + &quot;. Currency Code is &quot; + currencyCodeValue)
+
+log.info(&quot;ProductID is &quot; + productIdValue)
+log.info(&quot;CategoryID is &quot; + categoryIdValue)
+log.info(&quot;Product Price is &quot; + srpValue)
+log.info(&quot;Currency Code is &quot; + currencyCodeValue)</stringProp>
+              <stringProp name="scriptLanguage">groovy</stringProp>
+            </JSR223Assertion>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="10 And user add a product id -- /add product id" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
                 <elementProp name="product_id" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">82</stringProp>
+                  <stringProp name="Argument.value">${productID_1}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">product_id</stringProp>
@@ -2049,7 +2164,7 @@
                 </elementProp>
                 <elementProp name="user_price" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">600</stringProp>
+                  <stringProp name="Argument.value">${srp_1}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">user_price</stringProp>
@@ -2108,7 +2223,7 @@
             </collectionProp>
           </HeaderManager>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="10 And user add a category id -- /add category id" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="11 And user add a category id -- /add category id" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
                 <elementProp name="categoryId" elementType="HTTPArgument">
@@ -2171,7 +2286,7 @@
             </collectionProp>
           </HeaderManager>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="11 And user build the proposal cover-- /build proposal cover" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="12 And user build the proposal cover-- /build proposal cover" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
                 <elementProp name="url" elementType="HTTPArgument">
@@ -2241,19 +2356,19 @@
             </collectionProp>
           </HeaderManager>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="12 And user build the save proposal cover-- /build save proposal" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="13 And user build the save proposal cover-- /build save proposal" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
                 <elementProp name="proposal[proposal_id]" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">${ProposalID}</stringProp>
+                  <stringProp name="Argument.value">${proposal_ID}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">proposal[proposal_id]</stringProp>
                 </elementProp>
                 <elementProp name="proposal[price]" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">600.00</stringProp>
+                  <stringProp name="Argument.value">${srp_1}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">proposal[price]</stringProp>
@@ -2295,7 +2410,7 @@
                 </elementProp>
                 <elementProp name="proposal_product[0][product_id]" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">82</stringProp>
+                  <stringProp name="Argument.value">${productID_1}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">proposal_product[0][product_id]</stringProp>
@@ -2316,7 +2431,7 @@
                 </elementProp>
                 <elementProp name="proposal_quotation[0][product_id]" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">82</stringProp>
+                  <stringProp name="Argument.value">${productID_1}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">proposal_quotation[0][product_id]</stringProp>
@@ -2330,14 +2445,14 @@
                 </elementProp>
                 <elementProp name="proposal_quotation[0][currency_code]" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">USD</stringProp>
+                  <stringProp name="Argument.value">${currencyCode_1}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">proposal_quotation[0][currency_code]</stringProp>
                 </elementProp>
                 <elementProp name="proposal_quotation[0][amount]" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">600</stringProp>
+                  <stringProp name="Argument.value">${srp_1}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">proposal_quotation[0][amount]</stringProp>
@@ -2415,7 +2530,7 @@
             </collectionProp>
           </HeaderManager>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="13 And check proposal build progress -- /build progress" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="14 And check proposal build progress -- /build progress" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
                 <elementProp name="methodName" elementType="HTTPArgument">
@@ -2470,7 +2585,7 @@
             </collectionProp>
           </HeaderManager>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="14 Then user save the proposal in the list -- /save proposal" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="15 Then user save the proposal in the list -- /save proposal" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
                 <elementProp name="draw" elementType="HTTPArgument">
@@ -2835,7 +2950,7 @@
         </hashTree>
         <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="And Send a Slack Notification" enabled="true"/>
         <hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="15 And Send a Slack Notification -- /send notif" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="16 And Send a Slack Notification -- /send notif" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -3149,6 +3264,25 @@
           </collectionProp>
         </HeaderManager>
         <hashTree/>
+        <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="JDBC Connection Configuration" enabled="true">
+          <boolProp name="autocommit">true</boolProp>
+          <stringProp name="checkQuery">select 1</stringProp>
+          <stringProp name="connectionAge">5000</stringProp>
+          <stringProp name="connectionProperties"></stringProp>
+          <stringProp name="dataSource">db_conn</stringProp>
+          <stringProp name="dbUrl">jdbc:mysql://central-db-compass.cuz0vq3xjyt0.us-west-1.rds.amazonaws.com:3306/central</stringProp>
+          <stringProp name="driver">com.mysql.jdbc.Driver</stringProp>
+          <stringProp name="initQuery"></stringProp>
+          <boolProp name="keepAlive">true</boolProp>
+          <stringProp name="password">vC0%4yi@6ZJJ</stringProp>
+          <stringProp name="poolMax">10</stringProp>
+          <boolProp name="preinit">false</boolProp>
+          <stringProp name="timeout">10000</stringProp>
+          <stringProp name="transactionIsolation">DEFAULT</stringProp>
+          <stringProp name="trimInterval">60000</stringProp>
+          <stringProp name="username">jumer</stringProp>
+        </JDBCDataSource>
+        <hashTree/>
         <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Given user navigates to login" enabled="true">
           <stringProp name="TestPlan.comments">Given User navigates to &quot;&lt;loginUrl&gt;&quot; using &quot;&lt;browser&gt;&quot;</stringProp>
         </GenericController>
@@ -3346,7 +3480,7 @@
               <collectionProp name="Arguments.arguments">
                 <elementProp name="profile_id" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">950248</stringProp>
+                  <stringProp name="Argument.value">${profile_id}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">profile_id</stringProp>
@@ -3386,7 +3520,7 @@
               <collectionProp name="Arguments.arguments">
                 <elementProp name="profile_id" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">950248</stringProp>
+                  <stringProp name="Argument.value">${profile_id}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">profile_id</stringProp>
@@ -3472,7 +3606,7 @@
           </HTTPSamplerProxy>
           <hashTree>
             <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor - ProposaID" enabled="true">
-              <stringProp name="JSONPostProcessor.referenceNames">ProposalID</stringProp>
+              <stringProp name="JSONPostProcessor.referenceNames">proposal_ID</stringProp>
               <stringProp name="JSONPostProcessor.jsonPathExprs">$.proposalId</stringProp>
               <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
             </JSONPostProcessor>
@@ -3504,7 +3638,7 @@
               <collectionProp name="Arguments.arguments">
                 <elementProp name="proposal_id" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">${ProposalID}</stringProp>
+                  <stringProp name="Argument.value">${proposal_ID}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">proposal_id</stringProp>
@@ -3555,12 +3689,48 @@
             </collectionProp>
           </HeaderManager>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="09 And user add a product id -- /add product id" enabled="true">
+          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="09 And user connecct to db to get product id -- /GET product id from db" enabled="true">
+            <stringProp name="dataSource">db_conn</stringProp>
+            <stringProp name="query">SELECT product_price.`product_id`, product_price.`category_id`, product_price.`srp`, product_price.`currency_code`
+FROM product_price
+WHERE product_price.`srp` &gt; 0
+ORDER BY RAND()
+LIMIT 1;</stringProp>
+            <stringProp name="queryArguments"></stringProp>
+            <stringProp name="queryArgumentsTypes"></stringProp>
+            <stringProp name="queryTimeout">120</stringProp>
+            <stringProp name="queryType">Select Statement</stringProp>
+            <stringProp name="resultSetHandler">Store as String</stringProp>
+            <stringProp name="resultSetMaxRows"></stringProp>
+            <stringProp name="resultVariable"></stringProp>
+            <stringProp name="variableNames">productID,categoryID,srp,currencyCode</stringProp>
+          </JDBCSampler>
+          <hashTree>
+            <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="JSR223 Assertion" enabled="true">
+              <stringProp name="cacheKey">true</stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="script">def productIdValue = vars.get(&quot;productID_1&quot;)
+def categoryIdValue = vars.get(&quot;categoryID_1&quot;)
+def srpValue = vars.get(&quot;srp_1&quot;)
+def currencyCodeValue = vars.get(&quot;currencyCode_1&quot;)
+
+prev.setResponseMessage(&quot;ProductID is &quot; + productIdValue + &quot;. CategoryID is &quot; + categoryIdValue + &quot;. Product Price is &quot; + srpValue + &quot;. Currency Code is &quot; + currencyCodeValue)
+
+log.info(&quot;ProductID is &quot; + productIdValue)
+log.info(&quot;CategoryID is &quot; + categoryIdValue)
+log.info(&quot;Product Price is &quot; + srpValue)
+log.info(&quot;Currency Code is &quot; + currencyCodeValue)</stringProp>
+              <stringProp name="scriptLanguage">groovy</stringProp>
+            </JSR223Assertion>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="10 And user add a product id -- /add product id" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
                 <elementProp name="product_id" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">82</stringProp>
+                  <stringProp name="Argument.value">${productID_1}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">product_id</stringProp>
@@ -3574,7 +3744,7 @@
                 </elementProp>
                 <elementProp name="user_price" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">600</stringProp>
+                  <stringProp name="Argument.value">${srp_1}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">user_price</stringProp>
@@ -3633,7 +3803,7 @@
             </collectionProp>
           </HeaderManager>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="10 And user add a category id -- /add category id" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="11 And user add a category id -- /add category id" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
                 <elementProp name="categoryId" elementType="HTTPArgument">
@@ -3696,7 +3866,7 @@
             </collectionProp>
           </HeaderManager>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="11 And user build the proposal cover-- /build proposal cover" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="12 And user build the proposal cover-- /build proposal cover" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
                 <elementProp name="url" elementType="HTTPArgument">
@@ -3766,19 +3936,19 @@
             </collectionProp>
           </HeaderManager>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="12 And user build the save proposal cover-- /build save proposal" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="13 And user build the save proposal cover-- /build save proposal" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
                 <elementProp name="proposal[proposal_id]" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">${ProposalID}</stringProp>
+                  <stringProp name="Argument.value">${proposal_ID}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">proposal[proposal_id]</stringProp>
                 </elementProp>
                 <elementProp name="proposal[price]" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">600.00</stringProp>
+                  <stringProp name="Argument.value">${srp_1}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">proposal[price]</stringProp>
@@ -3820,7 +3990,7 @@
                 </elementProp>
                 <elementProp name="proposal_product[0][product_id]" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">82</stringProp>
+                  <stringProp name="Argument.value">${productID_1}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">proposal_product[0][product_id]</stringProp>
@@ -3841,7 +4011,7 @@
                 </elementProp>
                 <elementProp name="proposal_quotation[0][product_id]" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">82</stringProp>
+                  <stringProp name="Argument.value">${productID_1}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">proposal_quotation[0][product_id]</stringProp>
@@ -3855,14 +4025,14 @@
                 </elementProp>
                 <elementProp name="proposal_quotation[0][currency_code]" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">USD</stringProp>
+                  <stringProp name="Argument.value">${currencyCode_1}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">proposal_quotation[0][currency_code]</stringProp>
                 </elementProp>
                 <elementProp name="proposal_quotation[0][amount]" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">600</stringProp>
+                  <stringProp name="Argument.value">${srp_1}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">proposal_quotation[0][amount]</stringProp>
@@ -3940,7 +4110,7 @@
             </collectionProp>
           </HeaderManager>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="13 And check proposal build progress -- /build progress" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="14 And check proposal build progress -- /build progress" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
                 <elementProp name="methodName" elementType="HTTPArgument">
@@ -3995,7 +4165,7 @@
             </collectionProp>
           </HeaderManager>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="14 Then user save the proposal in the list -- /save proposal" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="15 Then user save the proposal in the list -- /save proposal" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
                 <elementProp name="draw" elementType="HTTPArgument">
@@ -4360,7 +4530,7 @@
         </hashTree>
         <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="And Send a Slack Notification" enabled="true"/>
         <hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="15 And Send a Slack Notification -- /send notif" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="16 And Send a Slack Notification -- /send notif" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -4674,6 +4844,25 @@
           </collectionProp>
         </HeaderManager>
         <hashTree/>
+        <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="JDBC Connection Configuration" enabled="true">
+          <boolProp name="autocommit">true</boolProp>
+          <stringProp name="checkQuery">select 1</stringProp>
+          <stringProp name="connectionAge">5000</stringProp>
+          <stringProp name="connectionProperties"></stringProp>
+          <stringProp name="dataSource">db_conn</stringProp>
+          <stringProp name="dbUrl">jdbc:mysql://central-db-compass.cuz0vq3xjyt0.us-west-1.rds.amazonaws.com:3306/central</stringProp>
+          <stringProp name="driver">com.mysql.jdbc.Driver</stringProp>
+          <stringProp name="initQuery"></stringProp>
+          <boolProp name="keepAlive">true</boolProp>
+          <stringProp name="password">vC0%4yi@6ZJJ</stringProp>
+          <stringProp name="poolMax">10</stringProp>
+          <boolProp name="preinit">false</boolProp>
+          <stringProp name="timeout">10000</stringProp>
+          <stringProp name="transactionIsolation">DEFAULT</stringProp>
+          <stringProp name="trimInterval">60000</stringProp>
+          <stringProp name="username">jumer</stringProp>
+        </JDBCDataSource>
+        <hashTree/>
         <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Given user navigates to login" enabled="true">
           <stringProp name="TestPlan.comments">Given User navigates to &quot;&lt;loginUrl&gt;&quot; using &quot;&lt;browser&gt;&quot;</stringProp>
         </GenericController>
@@ -4871,7 +5060,7 @@
               <collectionProp name="Arguments.arguments">
                 <elementProp name="profile_id" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">950248</stringProp>
+                  <stringProp name="Argument.value">${profile_id}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">profile_id</stringProp>
@@ -4911,7 +5100,7 @@
               <collectionProp name="Arguments.arguments">
                 <elementProp name="profile_id" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">950248</stringProp>
+                  <stringProp name="Argument.value">${profile_id}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">profile_id</stringProp>
@@ -4997,7 +5186,7 @@
           </HTTPSamplerProxy>
           <hashTree>
             <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor - ProposaID" enabled="true">
-              <stringProp name="JSONPostProcessor.referenceNames">ProposalID</stringProp>
+              <stringProp name="JSONPostProcessor.referenceNames">proposal_ID</stringProp>
               <stringProp name="JSONPostProcessor.jsonPathExprs">$.proposalId</stringProp>
               <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
             </JSONPostProcessor>
@@ -5029,7 +5218,7 @@
               <collectionProp name="Arguments.arguments">
                 <elementProp name="proposal_id" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">${ProposalID}</stringProp>
+                  <stringProp name="Argument.value">${proposal_ID}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">proposal_id</stringProp>
@@ -5080,12 +5269,48 @@
             </collectionProp>
           </HeaderManager>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="09 And user add a product id -- /add product id" enabled="true">
+          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="09 And user connecct to db to get product id -- /GET product id from db" enabled="true">
+            <stringProp name="dataSource">db_conn</stringProp>
+            <stringProp name="query">SELECT product_price.`product_id`, product_price.`category_id`, product_price.`srp`, product_price.`currency_code`
+FROM product_price
+WHERE product_price.`srp` &gt; 0
+ORDER BY RAND()
+LIMIT 1;</stringProp>
+            <stringProp name="queryArguments"></stringProp>
+            <stringProp name="queryArgumentsTypes"></stringProp>
+            <stringProp name="queryTimeout">120</stringProp>
+            <stringProp name="queryType">Select Statement</stringProp>
+            <stringProp name="resultSetHandler">Store as String</stringProp>
+            <stringProp name="resultSetMaxRows"></stringProp>
+            <stringProp name="resultVariable"></stringProp>
+            <stringProp name="variableNames">productID,categoryID,srp,currencyCode</stringProp>
+          </JDBCSampler>
+          <hashTree>
+            <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="JSR223 Assertion" enabled="true">
+              <stringProp name="cacheKey">true</stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="script">def productIdValue = vars.get(&quot;productID_1&quot;)
+def categoryIdValue = vars.get(&quot;categoryID_1&quot;)
+def srpValue = vars.get(&quot;srp_1&quot;)
+def currencyCodeValue = vars.get(&quot;currencyCode_1&quot;)
+
+prev.setResponseMessage(&quot;ProductID is &quot; + productIdValue + &quot;. CategoryID is &quot; + categoryIdValue + &quot;. Product Price is &quot; + srpValue + &quot;. Currency Code is &quot; + currencyCodeValue)
+
+log.info(&quot;ProductID is &quot; + productIdValue)
+log.info(&quot;CategoryID is &quot; + categoryIdValue)
+log.info(&quot;Product Price is &quot; + srpValue)
+log.info(&quot;Currency Code is &quot; + currencyCodeValue)</stringProp>
+              <stringProp name="scriptLanguage">groovy</stringProp>
+            </JSR223Assertion>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="10 And user add a product id -- /add product id" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
                 <elementProp name="product_id" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">82</stringProp>
+                  <stringProp name="Argument.value">${productID_1}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">product_id</stringProp>
@@ -5099,7 +5324,7 @@
                 </elementProp>
                 <elementProp name="user_price" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">600</stringProp>
+                  <stringProp name="Argument.value">${srp_1}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">user_price</stringProp>
@@ -5158,7 +5383,7 @@
             </collectionProp>
           </HeaderManager>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="10 And user add a category id -- /add category id" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="11 And user add a category id -- /add category id" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
                 <elementProp name="categoryId" elementType="HTTPArgument">
@@ -5221,7 +5446,7 @@
             </collectionProp>
           </HeaderManager>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="11 And user build the proposal cover-- /build proposal cover" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="12 And user build the proposal cover-- /build proposal cover" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
                 <elementProp name="url" elementType="HTTPArgument">
@@ -5291,19 +5516,19 @@
             </collectionProp>
           </HeaderManager>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="12 And user build the save proposal cover-- /build save proposal" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="13 And user build the save proposal cover-- /build save proposal" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
                 <elementProp name="proposal[proposal_id]" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">${ProposalID}</stringProp>
+                  <stringProp name="Argument.value">${proposal_ID}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">proposal[proposal_id]</stringProp>
                 </elementProp>
                 <elementProp name="proposal[price]" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">600.00</stringProp>
+                  <stringProp name="Argument.value">${srp_1}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">proposal[price]</stringProp>
@@ -5345,7 +5570,7 @@
                 </elementProp>
                 <elementProp name="proposal_product[0][product_id]" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">82</stringProp>
+                  <stringProp name="Argument.value">${productID_1}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">proposal_product[0][product_id]</stringProp>
@@ -5366,7 +5591,7 @@
                 </elementProp>
                 <elementProp name="proposal_quotation[0][product_id]" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">82</stringProp>
+                  <stringProp name="Argument.value">${productID_1}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">proposal_quotation[0][product_id]</stringProp>
@@ -5380,14 +5605,14 @@
                 </elementProp>
                 <elementProp name="proposal_quotation[0][currency_code]" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">USD</stringProp>
+                  <stringProp name="Argument.value">${currencyCode_1}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">proposal_quotation[0][currency_code]</stringProp>
                 </elementProp>
                 <elementProp name="proposal_quotation[0][amount]" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">600</stringProp>
+                  <stringProp name="Argument.value">${srp_1}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">proposal_quotation[0][amount]</stringProp>
@@ -5465,7 +5690,7 @@
             </collectionProp>
           </HeaderManager>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="13 And check proposal build progress -- /build progress" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="14 And check proposal build progress -- /build progress" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
                 <elementProp name="methodName" elementType="HTTPArgument">
@@ -5520,7 +5745,7 @@
             </collectionProp>
           </HeaderManager>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="14 Then user save the proposal in the list -- /save proposal" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="15 Then user save the proposal in the list -- /save proposal" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
                 <elementProp name="draw" elementType="HTTPArgument">
@@ -5885,7 +6110,7 @@
         </hashTree>
         <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="And Send a Slack Notification" enabled="true"/>
         <hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="15 And Send a Slack Notification -- /send notif" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="16 And Send a Slack Notification -- /send notif" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
