@@ -139,7 +139,7 @@
         <hashTree>
           <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="01 And User generates a WebAuditReport -- /GET URL from db" enabled="true">
             <stringProp name="dataSource">db_conn</stringProp>
-            <stringProp name="query">SELECT tbl_proposal.`url`, tbl_proposal.`token`
+            <stringProp name="query">SELECT tbl_proposal.`id`, tbl_proposal.`url`, tbl_proposal.`token`
 FROM tbl_proposal
 ORDER BY 1 DESC
 LIMIT 1;</stringProp>
@@ -150,7 +150,7 @@ LIMIT 1;</stringProp>
             <stringProp name="resultSetHandler">Store as String</stringProp>
             <stringProp name="resultSetMaxRows"></stringProp>
             <stringProp name="resultVariable"></stringProp>
-            <stringProp name="variableNames">url,token</stringProp>
+            <stringProp name="variableNames">id,url,token</stringProp>
           </JDBCSampler>
           <hashTree>
             <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="JSR223 Assertion" enabled="true">
