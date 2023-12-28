@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan version="1.2" properties="5.0" jmeter="5.5">
   <hashTree>
-    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="TAA-992 - GenerateWebAuditReportNotif" enabled="true">
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="TAA-TAA-991 - GenerateGBPScorerReportNotif" enabled="true">
       <stringProp name="TestPlan.comments"></stringProp>
       <boolProp name="TestPlan.functional_mode">false</boolProp>
       <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
@@ -47,7 +47,7 @@
       <stringProp name="TestPlan.user_define_classpath"></stringProp>
     </TestPlan>
     <hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="LoadTest - GenerateWebAuditReport - TestCase01" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="LoadTest - GenerateGBPScorerReportNotif - TestCase01" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -120,27 +120,28 @@
           <stringProp name="connectionAge">5000</stringProp>
           <stringProp name="connectionProperties"></stringProp>
           <stringProp name="dataSource">db_conn</stringProp>
-          <stringProp name="dbUrl">jdbc:mysql://central-db-compass.cuz0vq3xjyt0.us-west-1.rds.amazonaws.com:3306/central</stringProp>
+          <stringProp name="dbUrl">jdbc:mysql://report-builder-db.cuz0vq3xjyt0.us-west-1.rds.amazonaws.com:3306/report_builder</stringProp>
           <stringProp name="driver">com.mysql.jdbc.Driver</stringProp>
           <stringProp name="initQuery"></stringProp>
           <boolProp name="keepAlive">true</boolProp>
-          <stringProp name="password">vC0%4yi@6ZJJ</stringProp>
+          <stringProp name="password">6s5EgwUcXZkUjpB</stringProp>
           <stringProp name="poolMax">10</stringProp>
           <boolProp name="preinit">false</boolProp>
           <stringProp name="timeout">10000</stringProp>
           <stringProp name="transactionIsolation">DEFAULT</stringProp>
           <stringProp name="trimInterval">60000</stringProp>
-          <stringProp name="username">jumer</stringProp>
+          <stringProp name="username">qa_tester</stringProp>
         </JDBCDataSource>
         <hashTree/>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="And User generates a WebAuditReport" enabled="true">
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Given User generates a GBPScorerReport" enabled="true">
           <stringProp name="TestPlan.comments">user entered website url and clicks on &quot;Run Audit&quot; button</stringProp>
         </GenericController>
         <hashTree>
-          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="01 And User generates a WebAuditReport -- /GET URL from db" enabled="true">
+          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="01 Given User generates a GBPScorerReport -- /GET URL from db" enabled="true">
             <stringProp name="dataSource">db_conn</stringProp>
-            <stringProp name="query">SELECT tbl_proposal.`id`, tbl_proposal.`url`, tbl_proposal.`token`
-FROM tbl_proposal
+            <stringProp name="query">SELECT reports.`report_id`, reports.`name`, reports.`token`
+FROM report_builder.`reports`
+WHERE reports.`report_template_code` = &apos;gbp-scorer-report&apos;
 ORDER BY 1 DESC
 LIMIT 1;</stringProp>
             <stringProp name="queryArguments"></stringProp>
@@ -150,7 +151,7 @@ LIMIT 1;</stringProp>
             <stringProp name="resultSetHandler">Store as String</stringProp>
             <stringProp name="resultSetMaxRows"></stringProp>
             <stringProp name="resultVariable"></stringProp>
-            <stringProp name="variableNames">id,url,token</stringProp>
+            <stringProp name="variableNames">id,name,token</stringProp>
           </JDBCSampler>
           <hashTree>
             <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="JSR223 Assertion" enabled="true">
@@ -158,15 +159,24 @@ LIMIT 1;</stringProp>
               <stringProp name="parameters"></stringProp>
               <stringProp name="filename"></stringProp>
               <stringProp name="cacheKey">true</stringProp>
-              <stringProp name="script">def urlValue = vars.get(&quot;url_1&quot;)
+              <stringProp name="script">def nameValue = vars.get(&quot;name_1&quot;)
 def tokenValue = vars.get(&quot;token_1&quot;)
 
-prev.setResponseMessage(&quot;url value is &quot; + urlValue)
+prev.setResponseMessage(&quot;name value is &quot; + nameValue)
 prev.setResponseMessage(&quot;token value is &quot; + tokenValue)
 
-log.info(&quot;url value is &quot; + urlValue)
+log.info(&quot;name value is &quot; + nameValue)
 log.info(&quot;token value is &quot; + tokenValue)</stringProp>
             </JSR223Assertion>
+            <hashTree/>
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="RegExp - name" enabled="true">
+              <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+              <stringProp name="RegexExtractor.refname">name</stringProp>
+              <stringProp name="RegexExtractor.regex">Report - (.*) </stringProp>
+              <stringProp name="RegexExtractor.template">$1$</stringProp>
+              <stringProp name="RegexExtractor.default"></stringProp>
+              <stringProp name="RegexExtractor.match_number">0</stringProp>
+            </RegexExtractor>
             <hashTree/>
           </hashTree>
         </hashTree>
@@ -180,7 +190,7 @@ log.info(&quot;token value is &quot; + tokenValue)</stringProp>
             <stringProp name="HTTPSampler.port"></stringProp>
             <stringProp name="HTTPSampler.protocol">http</stringProp>
             <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-            <stringProp name="HTTPSampler.path">/PerformanceProject/WebAudit_TAA-922/?C=M;O=D</stringProp>
+            <stringProp name="HTTPSampler.path">/PerformanceProject/GBPScorer_TAA-921/?C=M;O=D</stringProp>
             <stringProp name="HTTPSampler.method">GET</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -202,7 +212,7 @@ log.info(&quot;token value is &quot; + tokenValue)</stringProp>
             <hashTree/>
             <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
               <collectionProp name="Asserion.test_strings">
-                <stringProp name="-1911237263">&lt;title&gt;Index of /PerformanceProject/WebAudit_TAA-922&lt;/title&gt;</stringProp>
+                <stringProp name="-339075490">&lt;title&gt;Index of /PerformanceProject/GBPScorer_TAA-921&lt;/title&gt;</stringProp>
               </collectionProp>
               <stringProp name="Assertion.custom_message"></stringProp>
               <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
@@ -213,20 +223,13 @@ log.info(&quot;token value is &quot; + tokenValue)</stringProp>
           </hashTree>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="03 And User go to recent report -- /latest" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
-              <collectionProp name="Arguments.arguments">
-                <elementProp name="" elementType="HTTPArgument">
-                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value"></stringProp>
-                  <stringProp name="Argument.metadata">=</stringProp>
-                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                </elementProp>
-              </collectionProp>
+              <collectionProp name="Arguments.arguments"/>
             </elementProp>
             <stringProp name="HTTPSampler.domain">automation-report.cloud</stringProp>
             <stringProp name="HTTPSampler.port"></stringProp>
             <stringProp name="HTTPSampler.protocol">http</stringProp>
             <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-            <stringProp name="HTTPSampler.path">/PerformanceProject/WebAudit_TAA-922/HTML_Report_${report}/content/js/dashboard.js</stringProp>
+            <stringProp name="HTTPSampler.path">/PerformanceProject/GBPScorer_TAA-921/HTML_Report_${report}/content/js/dashboard.js</stringProp>
             <stringProp name="HTTPSampler.method">GET</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -276,7 +279,7 @@ log.info(&quot;token value is &quot; + tokenValue)</stringProp>
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.value">{&#xd;
-&quot;text&quot;: &quot;JMETER \n ===================== \n Agency Tool: WebAudit Report \n URL: ${url_1} \n Report Preview: https://account.seoreseller.com/pro/audits/report/${token_1}/preview \n Report Link: http://automation-report.cloud/PerformanceProject/WebAudit_TAA-922/?C=M;O=D \n Test Sampler - FAILED: ${error} of ${sample}&quot;&#xd;
+&quot;text&quot;: &quot;JMETER \n ===================== \n Agency Tool: GBP Scorer Report \n Business Name: ${name} \n Report Preview: https://myreports.app/reports/view/${token_1} \n Report Link: http://automation-report.cloud/PerformanceProject/GBPScorer_TAA-921/?C=M;O=D \n Test Sampler - FAILED: ${error} of ${sample}&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
