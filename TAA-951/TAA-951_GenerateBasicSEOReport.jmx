@@ -292,12 +292,47 @@ log.info(&quot;URL value is &quot; + urlValue)</stringProp>
             </JSONPathAssertion>
             <hashTree/>
           </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="06 And user generate a Basic SEO Report -- /in-progress" enabled="true">
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain"></stringProp>
+            <stringProp name="HTTPSampler.port"></stringProp>
+            <stringProp name="HTTPSampler.protocol"></stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">/api/v1/reports</stringProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor - tokenizeRequestStatus01" enabled="true">
+              <stringProp name="JSONPostProcessor.referenceNames">tokenizeRequestStatus01</stringProp>
+              <stringProp name="JSONPostProcessor.jsonPathExprs">$.response.data[0].status.tokenize_request_status_code</stringProp>
+              <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+            </JSONPostProcessor>
+            <hashTree/>
+            <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="JSON Assertion" enabled="true">
+              <stringProp name="JSON_PATH">$.statusCode</stringProp>
+              <stringProp name="EXPECTED_VALUE">200</stringProp>
+              <boolProp name="JSONVALIDATION">true</boolProp>
+              <boolProp name="EXPECT_NULL">false</boolProp>
+              <boolProp name="INVERT">false</boolProp>
+              <boolProp name="ISREGEX">true</boolProp>
+            </JSONPathAssertion>
+            <hashTree/>
+          </hashTree>
           <WhileController guiclass="WhileControllerGui" testclass="WhileController" testname="And user generate a Basic SEO Report -- in-progress" enabled="true">
             <stringProp name="TestPlan.comments">While &quot;tokenize_request_status_code&quot;: &quot;in-progress&quot;</stringProp>
-            <stringProp name="WhileController.condition">${__javaScript(&quot;${tokenizeRequestStatus01}&quot; != &quot;completed&quot;,)}</stringProp>
+            <stringProp name="WhileController.condition">${__javaScript(&quot;${tokenizeRequestStatus01}&quot; == &quot;in-progress&quot;,)}</stringProp>
           </WhileController>
           <hashTree>
-            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="06 And user generate a Basic SEO Report -- /in-progress" enabled="true">
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="07 And user generate a Basic SEO Report -- /in-progress" enabled="true">
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                 <collectionProp name="Arguments.arguments"/>
               </elementProp>
@@ -337,7 +372,7 @@ log.info(&quot;URL value is &quot; + urlValue)</stringProp>
               <hashTree/>
             </hashTree>
             <IfController guiclass="IfControllerPanel" testclass="IfController" testname="Then user successfully generate a Basic SEO Report -- completed" enabled="true">
-              <stringProp name="IfController.condition">${__javaScript(&quot;${tokenizeRequestStatus01}&quot; == &quot;completed&quot;,)}</stringProp>
+              <stringProp name="IfController.condition">${__javaScript(&quot;${tokenizeRequestStatus01}&quot; != &quot;in-progress&quot;,)}</stringProp>
               <boolProp name="IfController.evaluateAll">false</boolProp>
               <boolProp name="IfController.useExpression">true</boolProp>
             </IfController>
@@ -360,25 +395,25 @@ log.info(&quot;URL value is &quot; + urlValue)</stringProp>
                 <stringProp name="HTTPSampler.connect_timeout"></stringProp>
                 <stringProp name="HTTPSampler.response_timeout"></stringProp>
               </HTTPSamplerProxy>
-              <hashTree/>
-              <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor - token" enabled="true">
-                <stringProp name="JSONPostProcessor.referenceNames">token</stringProp>
-                <stringProp name="JSONPostProcessor.jsonPathExprs">$.response.data[0].token</stringProp>
-                <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
-              </JSONPostProcessor>
-              <hashTree/>
-              <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor - tokenize_request_02" enabled="true">
-                <stringProp name="JSONPostProcessor.referenceNames">tokenizeRequestStatus02</stringProp>
-                <stringProp name="JSONPostProcessor.jsonPathExprs">$.response.data[0].status.tokenize_request_status_code</stringProp>
-                <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
-              </JSONPostProcessor>
-              <hashTree/>
-              <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="JSR223 Assertion" enabled="true">
-                <stringProp name="scriptLanguage">groovy</stringProp>
-                <stringProp name="parameters"></stringProp>
-                <stringProp name="filename"></stringProp>
-                <stringProp name="cacheKey">true</stringProp>
-                <stringProp name="script">def expectedTokenizeRequestStatus = &quot;completed&quot;
+              <hashTree>
+                <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor - token" enabled="true">
+                  <stringProp name="JSONPostProcessor.referenceNames">token</stringProp>
+                  <stringProp name="JSONPostProcessor.jsonPathExprs">$.response.data[0].token</stringProp>
+                  <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+                </JSONPostProcessor>
+                <hashTree/>
+                <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor - tokenize_request_02" enabled="true">
+                  <stringProp name="JSONPostProcessor.referenceNames">tokenizeRequestStatus02</stringProp>
+                  <stringProp name="JSONPostProcessor.jsonPathExprs">$.response.data[0].status.tokenize_request_status_code</stringProp>
+                  <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+                </JSONPostProcessor>
+                <hashTree/>
+                <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="JSR223 Assertion" enabled="true">
+                  <stringProp name="scriptLanguage">groovy</stringProp>
+                  <stringProp name="parameters"></stringProp>
+                  <stringProp name="filename"></stringProp>
+                  <stringProp name="cacheKey">true</stringProp>
+                  <stringProp name="script">def expectedTokenizeRequestStatus = &quot;completed&quot;
 def actualTokenizeRequestStatus = vars.get(&quot;tokenizeRequestStatus02&quot;)
 
 if (expectedTokenizeRequestStatus != actualTokenizeRequestStatus)
@@ -394,8 +429,18 @@ else
 
 log.info(&quot;*****Tokenize Request Status Actual value is****** &quot; + actualTokenizeRequestStatus)
 log.info(&quot;*****Tokenize Request Status Expected value is***** &quot; + expectedTokenizeRequestStatus)</stringProp>
-              </JSR223Assertion>
-              <hashTree/>
+                </JSR223Assertion>
+                <hashTree/>
+                <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="JSON Assertion" enabled="true">
+                  <stringProp name="JSON_PATH">$.response.data[0].status.tokenize_request_status_code</stringProp>
+                  <stringProp name="EXPECTED_VALUE">completed</stringProp>
+                  <boolProp name="JSONVALIDATION">true</boolProp>
+                  <boolProp name="EXPECT_NULL">false</boolProp>
+                  <boolProp name="INVERT">false</boolProp>
+                  <boolProp name="ISREGEX">true</boolProp>
+                </JSONPathAssertion>
+                <hashTree/>
+              </hashTree>
             </hashTree>
           </hashTree>
         </hashTree>
@@ -862,112 +907,6 @@ log.info(&quot;URL value is &quot; + urlValue)</stringProp>
               <boolProp name="ISREGEX">true</boolProp>
             </JSONPathAssertion>
             <hashTree/>
-          </hashTree>
-          <WhileController guiclass="WhileControllerGui" testclass="WhileController" testname="And user generate a Basic SEO Report -- in-progress" enabled="true">
-            <stringProp name="TestPlan.comments">While &quot;tokenize_request_status_code&quot;: &quot;in-progress&quot;</stringProp>
-            <stringProp name="WhileController.condition">${__javaScript(&quot;${tokenizeRequestStatus01}&quot; != &quot;completed&quot;,)}</stringProp>
-          </WhileController>
-          <hashTree>
-            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="06 And user generate a Basic SEO Report -- /in-progress" enabled="true">
-              <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
-                <collectionProp name="Arguments.arguments"/>
-              </elementProp>
-              <stringProp name="HTTPSampler.domain"></stringProp>
-              <stringProp name="HTTPSampler.port"></stringProp>
-              <stringProp name="HTTPSampler.protocol"></stringProp>
-              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-              <stringProp name="HTTPSampler.path">/api/v1/reports</stringProp>
-              <stringProp name="HTTPSampler.method">GET</stringProp>
-              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-              <stringProp name="HTTPSampler.response_timeout"></stringProp>
-            </HTTPSamplerProxy>
-            <hashTree>
-              <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
-                <stringProp name="ConstantTimer.delay">3000</stringProp>
-              </ConstantTimer>
-              <hashTree/>
-              <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor - tokenizeRequestStatus01" enabled="true">
-                <stringProp name="JSONPostProcessor.referenceNames">tokenizeRequestStatus01</stringProp>
-                <stringProp name="JSONPostProcessor.jsonPathExprs">$.response.data[0].status.tokenize_request_status_code</stringProp>
-                <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
-              </JSONPostProcessor>
-              <hashTree/>
-              <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="JSON Assertion" enabled="true">
-                <stringProp name="JSON_PATH">$.statusCode</stringProp>
-                <stringProp name="EXPECTED_VALUE">200</stringProp>
-                <boolProp name="JSONVALIDATION">true</boolProp>
-                <boolProp name="EXPECT_NULL">false</boolProp>
-                <boolProp name="INVERT">false</boolProp>
-                <boolProp name="ISREGEX">true</boolProp>
-              </JSONPathAssertion>
-              <hashTree/>
-            </hashTree>
-            <IfController guiclass="IfControllerPanel" testclass="IfController" testname="Then user successfully generate a Basic SEO Report -- completed" enabled="true">
-              <stringProp name="IfController.condition">${__javaScript(&quot;${tokenizeRequestStatus01}&quot; == &quot;completed&quot;,)}</stringProp>
-              <boolProp name="IfController.evaluateAll">false</boolProp>
-              <boolProp name="IfController.useExpression">true</boolProp>
-            </IfController>
-            <hashTree>
-              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="07 Then user successfully generate a Basic SEO Report -- completed" enabled="true">
-                <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
-                  <collectionProp name="Arguments.arguments"/>
-                </elementProp>
-                <stringProp name="HTTPSampler.domain"></stringProp>
-                <stringProp name="HTTPSampler.port"></stringProp>
-                <stringProp name="HTTPSampler.protocol"></stringProp>
-                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-                <stringProp name="HTTPSampler.path">/api/v1/reports</stringProp>
-                <stringProp name="HTTPSampler.method">GET</stringProp>
-                <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-                <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-                <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-                <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
-              </HTTPSamplerProxy>
-              <hashTree/>
-              <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor - token" enabled="true">
-                <stringProp name="JSONPostProcessor.referenceNames">token</stringProp>
-                <stringProp name="JSONPostProcessor.jsonPathExprs">$.response.data[0].token</stringProp>
-                <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
-              </JSONPostProcessor>
-              <hashTree/>
-              <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor - tokenize_request_02" enabled="true">
-                <stringProp name="JSONPostProcessor.referenceNames">tokenizeRequestStatus02</stringProp>
-                <stringProp name="JSONPostProcessor.jsonPathExprs">$.response.data[0].status.tokenize_request_status_code</stringProp>
-                <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
-              </JSONPostProcessor>
-              <hashTree/>
-              <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="JSR223 Assertion" enabled="true">
-                <stringProp name="scriptLanguage">groovy</stringProp>
-                <stringProp name="parameters"></stringProp>
-                <stringProp name="filename"></stringProp>
-                <stringProp name="cacheKey">true</stringProp>
-                <stringProp name="script">def expectedTokenizeRequestStatus = &quot;completed&quot;
-def actualTokenizeRequestStatus = vars.get(&quot;tokenizeRequestStatus02&quot;)
-
-if (expectedTokenizeRequestStatus != actualTokenizeRequestStatus)
-	{
-		AssertionResult.setFailure(true)
-		AssertionResult.setFailureMessage(&quot;Tokenize Request Status Actual value is &quot; + actualTokenizeRequestStatus  + &quot;, and Expected value is &quot; + expectedTokenizeRequestStatus)
-	}
-else
-	{
-		AssertionResult.setFailure(false)
-		prev.setResponseMessage(&quot;Tokenize Request Status Actual value is &quot; + actualTokenizeRequestStatus + &quot;, and Expected value is &quot; + expectedTokenizeRequestStatus)
-	}
-
-log.info(&quot;*****Tokenize Request Status Actual value is****** &quot; + actualTokenizeRequestStatus)
-log.info(&quot;*****Tokenize Request Status Expected value is***** &quot; + expectedTokenizeRequestStatus)</stringProp>
-              </JSR223Assertion>
-              <hashTree/>
-            </hashTree>
           </hashTree>
         </hashTree>
         <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="And Send a Slack Notification" enabled="true"/>
