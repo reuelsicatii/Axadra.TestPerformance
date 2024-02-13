@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan version="1.2" properties="5.0" jmeter="5.5">
   <hashTree>
-    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="TAA-TAA-991 - GenerateGBPScorerReportNotif" enabled="true">
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="TAA-921 - GenerateGBPScorerReportNotif" enabled="true">
       <stringProp name="TestPlan.comments"></stringProp>
       <boolProp name="TestPlan.functional_mode">false</boolProp>
       <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
@@ -154,6 +154,15 @@ LIMIT 1;</stringProp>
             <stringProp name="variableNames">id,name,token</stringProp>
           </JDBCSampler>
           <hashTree>
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="RegExp - name" enabled="true">
+              <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+              <stringProp name="RegexExtractor.refname">name</stringProp>
+              <stringProp name="RegexExtractor.regex">GBP Scorer Report - (.+)	</stringProp>
+              <stringProp name="RegexExtractor.template">$1$</stringProp>
+              <stringProp name="RegexExtractor.default"></stringProp>
+              <stringProp name="RegexExtractor.match_number">0</stringProp>
+            </RegexExtractor>
+            <hashTree/>
             <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="JSR223 Assertion" enabled="true">
               <stringProp name="scriptLanguage">groovy</stringProp>
               <stringProp name="parameters"></stringProp>
@@ -168,15 +177,6 @@ prev.setResponseMessage(&quot;token value is &quot; + tokenValue)
 log.info(&quot;name value is &quot; + nameValue)
 log.info(&quot;token value is &quot; + tokenValue)</stringProp>
             </JSR223Assertion>
-            <hashTree/>
-            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="RegExp - name" enabled="true">
-              <stringProp name="RegexExtractor.useHeaders">false</stringProp>
-              <stringProp name="RegexExtractor.refname">name</stringProp>
-              <stringProp name="RegexExtractor.regex">Report - (.*) </stringProp>
-              <stringProp name="RegexExtractor.template">$1$</stringProp>
-              <stringProp name="RegexExtractor.default"></stringProp>
-              <stringProp name="RegexExtractor.match_number">0</stringProp>
-            </RegexExtractor>
             <hashTree/>
           </hashTree>
         </hashTree>
