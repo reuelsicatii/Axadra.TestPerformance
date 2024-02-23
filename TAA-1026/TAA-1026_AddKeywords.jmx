@@ -48,7 +48,7 @@
     </TestPlan>
     <hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="LoadTest - AddKeywords - TestCase01" enabled="true">
-        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <stringProp name="ThreadGroup.on_sample_error">stoptest</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <stringProp name="LoopController.loops">1</stringProp>
@@ -372,7 +372,7 @@
                 </elementProp>
                 <elementProp name="campaign_id" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">140</stringProp>
+                  <stringProp name="Argument.value">33556</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">campaign_id</stringProp>
@@ -414,7 +414,7 @@
         </hashTree>
         <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="And User Add Keywords" enabled="true"/>
         <hashTree>
-          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="08 And User Add a Keyword - /GET kw from db" enabled="true">
+          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="08 And User Add a Keyword -- /GET kw from db" enabled="true">
             <stringProp name="dataSource">db_conn</stringProp>
             <stringProp name="queryType">Select Statement</stringProp>
             <stringProp name="query">SELECT tbl_keywords.`keyword`
@@ -441,7 +441,7 @@ log.info(&quot;Keyword is &quot; + keywordValue)</stringProp>
             </JSR223Assertion>
             <hashTree/>
           </hashTree>
-          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="09 And User Add a Keyword - /GET geotarget from db" enabled="true">
+          <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="09 And User Add a Keyword -- /GET geotarget from db" enabled="true">
             <stringProp name="dataSource">db_conn</stringProp>
             <stringProp name="queryType">Select Statement</stringProp>
             <stringProp name="query">SELECT tbl_geotargets.`criteria_id`, tbl_geotargets.`canonical_name`
@@ -468,7 +468,10 @@ log.info(&quot;Geo target is &quot; + geotargetValue)</stringProp>
             </JSR223Assertion>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="10 And User Add a Keyword - /add kw" enabled="true">
+        </hashTree>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="10 Then User successfully Add a Keyword " enabled="true"/>
+        <hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="10 Then User successfully Add a Keyword -- /add kw success" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments">
                 <elementProp name="keywords[]" elementType="HTTPArgument">
@@ -540,7 +543,7 @@ log.info(&quot;Geo target is &quot; + geotargetValue)</stringProp>
             <hashTree/>
           </hashTree>
         </hashTree>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="And Send a Slack Notification" enabled="true"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="And Send a Slack Notification" enabled="false"/>
         <hashTree>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="11 And Send a Slack Notification -- /send notif" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
