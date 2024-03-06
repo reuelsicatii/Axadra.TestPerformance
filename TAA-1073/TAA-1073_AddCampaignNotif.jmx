@@ -85,7 +85,7 @@
           <collectionProp name="HeaderManager.headers">
             <elementProp name="" elementType="Header">
               <stringProp name="Header.name">Referer</stringProp>
-              <stringProp name="Header.value">https://account.seoreseller.com/</stringProp>
+              <stringProp name="Header.value">http://automation-report.cloud/</stringProp>
             </elementProp>
             <elementProp name="" elementType="Header">
               <stringProp name="Header.name">Accept-Language</stringProp>
@@ -139,7 +139,7 @@
         <hashTree>
           <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="01 Given user added a campaign -- /GET campaign_name from db" enabled="true">
             <stringProp name="dataSource">db_conn</stringProp>
-            <stringProp name="query">SELECT tbl_projects.`name`
+            <stringProp name="query">SELECT tbl_projects.`id`, tbl_projects.`name`
 FROM tbl_projects
 WHERE tbl_projects.`creator` = &apos;7140&apos;
 ORDER BY tbl_projects.`created` DESC
@@ -151,7 +151,7 @@ LIMIT 1;</stringProp>
             <stringProp name="resultSetHandler">Store as String</stringProp>
             <stringProp name="resultSetMaxRows"></stringProp>
             <stringProp name="resultVariable"></stringProp>
-            <stringProp name="variableNames">campaignName</stringProp>
+            <stringProp name="variableNames">campaignId,campaignName</stringProp>
           </JDBCSampler>
           <hashTree>
             <JSR223Assertion guiclass="TestBeanGUI" testclass="JSR223Assertion" testname="JSR223 Assertion" enabled="true">
@@ -160,8 +160,13 @@ LIMIT 1;</stringProp>
               <stringProp name="filename"></stringProp>
               <stringProp name="cacheKey">true</stringProp>
               <stringProp name="script">def campaignNameValue = vars.get(&quot;campaignName_1&quot;)
+def campaignIdValue = vars.get(&quot;campaignId_1&quot;)
+
 prev.setResponseMessage(&quot;Campaign Name is &quot; + campaignNameValue)
-log.info(&quot;Campaign Name is &quot; + campaignNameValue)</stringProp>
+prev.setResponseMessage(&quot;Campaign ID is &quot; + campaignIdValue)
+
+log.info(&quot;Campaign Name is &quot; + campaignNameValue)
+log.info(&quot;Campaign ID is &quot; + campaignIdValue)</stringProp>
             </JSR223Assertion>
             <hashTree/>
           </hashTree>
@@ -176,7 +181,7 @@ log.info(&quot;Campaign Name is &quot; + campaignNameValue)</stringProp>
             <stringProp name="HTTPSampler.port"></stringProp>
             <stringProp name="HTTPSampler.protocol">http</stringProp>
             <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-            <stringProp name="HTTPSampler.path">/PerformanceProject/TAA-1073_AddCampaign/?C=M;O=D</stringProp>
+            <stringProp name="HTTPSampler.path">/PerformanceProject/AddCampaign_TAA-1073/?C=M;O=D</stringProp>
             <stringProp name="HTTPSampler.method">GET</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -198,7 +203,7 @@ log.info(&quot;Campaign Name is &quot; + campaignNameValue)</stringProp>
             <hashTree/>
             <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
               <collectionProp name="Asserion.test_strings">
-                <stringProp name="-339075490">&lt;title&gt;Index of /PerformanceProject/GBPScorer_TAA-921&lt;/title&gt;</stringProp>
+                <stringProp name="-1946297333">&lt;title&gt;Index of /PerformanceProject/AddCampaign_TAA-1073&lt;/title&gt;</stringProp>
               </collectionProp>
               <stringProp name="Assertion.custom_message"></stringProp>
               <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
@@ -235,7 +240,7 @@ log.info(&quot;Campaign Name is &quot; + campaignNameValue)</stringProp>
               <stringProp name="RegexExtractor.match_number">2</stringProp>
             </RegexExtractor>
             <hashTree/>
-            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="RegExp - errors" enabled="true">
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="RegExp - error" enabled="true">
               <stringProp name="RegexExtractor.useHeaders">false</stringProp>
               <stringProp name="RegexExtractor.refname">error</stringProp>
               <stringProp name="RegexExtractor.regex">Total&quot;, \d+, (\d+)</stringProp>
@@ -265,7 +270,7 @@ log.info(&quot;Campaign Name is &quot; + campaignNameValue)</stringProp>
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.value">{&#xd;
-&quot;text&quot;: &quot;JMETER \n ===================== \n Feature Name: SEOR_Campaigns_AddCampaign_PerfTest \n Campaign Name: ${campaignName} \n Report Preview: https://myreports.app/reports/view/${token_1} \n Report Link: http://automation-report.cloud/PerformanceProject/AddCampaign_TAA-1073/?C=M;O=D \n Test Sampler - FAILED: ${error} of ${sample}&quot;&#xd;
+&quot;text&quot;: &quot;JMETER \n ===================== \n Feature Name: SEOR_Campaigns_AddCampaign \n Campaign Name: ${campaignName_1} \n Campaign Link: https://account.seoreseller.com/campaigns/${campaignId_1} \n Report Link: http://automation-report.cloud/PerformanceProject/AddCampaign_TAA-1073/?C=M;O=D \n Test Sampler - FAILED: ${error} of ${sample}&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
