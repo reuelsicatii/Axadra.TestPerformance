@@ -181,7 +181,7 @@ log.info(&quot;Campaign ID is &quot; + campaignIdValue)</stringProp>
             <stringProp name="HTTPSampler.port"></stringProp>
             <stringProp name="HTTPSampler.protocol">http</stringProp>
             <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-            <stringProp name="HTTPSampler.path">/PerformanceProject/UpdateCampaignSettings_TAA-1086/?C=M;O=D</stringProp>
+            <stringProp name="HTTPSampler.path">/PerformanceProject/AddCampaignCompetitors_TAA-1086/?C=M;O=D</stringProp>
             <stringProp name="HTTPSampler.method">GET</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
