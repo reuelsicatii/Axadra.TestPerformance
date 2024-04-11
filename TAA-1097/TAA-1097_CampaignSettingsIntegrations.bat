@@ -1,0 +1,4 @@
+cd C:\Program Files\apache-jmeter-5.6.2\bin
+jmeter -n -t "C:\Users\Admin\Desktop\Test Automation\Perf Test\Axadra.TestPerformance\TAA-1097\TAA-1097_CampaignSettingsIntegrations.jmx" -l "C:\Users\Admin\Desktop\Test Automation\Perf Test\Axadra.TestPerformance\TAA-1097\CSV_Report_%date:~-4,4%%date:~-10,2%%date:~3,2%_%time:~0,2%%time:~3,2%\TAA-1097_KEY1.csv" -e -o "C:\xampp\htdocs\PerformanceProject\CampaignSettingsIntegrations_TAA-1097\HTML_Report_%date:~-4,4%%date:~-10,2%%date:~3,2%_%time:~0,2%%time:~3,2%"
+cd C:\Program Files\apache-jmeter-5.6.2\bin
+jmeter -n -t "C:\Users\Admin\Desktop\Test Automation\Perf Test\Axadra.TestPerformance\TAA-1097\TAA-1097_CampaignSettingsIntegrationsNotif.jmx"
